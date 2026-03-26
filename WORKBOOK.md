@@ -9,6 +9,10 @@ You build two parts:
 
 > **Note:** AI agents are non-deterministic. The prompts, questions, and outputs in this workbook are examples. Your agent may produce different questions, requirements, or architecture proposals. Use the examples to steer the agent toward a similar outcome.
 
+## Interactive Workbook
+
+This workbook is also available as an [interactive workbook](https://adobe-summit-l320-workbook.pages.dev/). The interactive version contains the same content in a step-by-step format that is easy to follow along with the presenters. We recommend using the interactive workbook during the lab.
+
 ---
 
 ## Provided artifacts
@@ -36,14 +40,6 @@ The following artifacts are provided to you for this lab. You do not need to cre
 ## Setup
 
 All lab machines are pre-configured with the required tools and dependencies. No manual setup is necessary.
-
-### Prerequisites
-
-The following tools are pre-installed on your lab machine:
-
-- **Node.js 22**, npm 9+, and **Git**
-- **Adobe I/O CLI** with Commerce, Runtime, and App Builder plugins
-- **Cursor** — Pre-configured with credentials and MCP tools for AI-assisted development.
 
 ### Step 1: Log in to Adobe I/O
 
