@@ -41,7 +41,16 @@ The following artifacts are provided to you for this lab. You do not need to cre
 
 All lab machines are pre-configured with the required tools and dependencies. No manual setup is necessary.
 
-### Step 1: Log in to Adobe I/O
+### Step 1: Clone the lab repository
+
+Clone the lab repository and change into the project directory. This repository contains the API contract and workbook files you will use throughout the lab.
+
+```bash
+git clone https://github.com/adobe-commerce/commerce-summit-L320.git
+cd commerce-summit-L320
+```
+
+### Step 2: Log in to Adobe I/O
 
 Log in to Adobe I/O using the CLI:
 
@@ -57,7 +66,7 @@ This opens a browser window for authentication. Complete the following steps:
 
 Once the CLI confirms a successful login, open the [Adobe Developer Console](https://developer.adobe.com/console/1899289/home/terms) in your browser. If you have not yet accepted the terms and conditions, a modal appears — review and accept to continue. If you have already accepted, the console loads the home page directly. If the console does not recognize your session, run `aio auth login --force` again.
 
-### Step 2: Set up the Integration Starter Kit
+### Step 3: Set up the Integration Starter Kit
 
 The `aio commerce extensibility app-setup` command handles the entire project setup in one step. It prompts you to select a starter kit, project directory name, and coding agent, lets you select your organization, project, and workspace, then clones the starter kit, connects the local workspace to the Dev Console workspace, configures `.env` with the necessary fields, subscribes to required services, installs AI coding tools, and runs `npm install`.
 
@@ -74,7 +83,7 @@ When prompted:
 
 After the command completes, open the `extension` project in Cursor.
 
-### Step 3: Copy the API contract into your project
+### Step 4: Copy the API contract into your project
 
 Copy the provided `PRODUCT_REVIEWS_API_CONTRACT.md` file into your extension project so the agent can reference it:
 
@@ -82,7 +91,7 @@ Copy the provided `PRODUCT_REVIEWS_API_CONTRACT.md` file into your extension pro
 cp PRODUCT_REVIEWS_API_CONTRACT.md extension/docs/PRODUCT_REVIEWS_API_CONTRACT.md
 ```
 
-### Step 4: Verify the API is reachable
+### Step 5: Verify the API is reachable
 
 Refer to `PRODUCT_REVIEWS_API_CONTRACT.md` for the full API contract, authentication details, and example requests. Run a quick test to confirm connectivity:
 

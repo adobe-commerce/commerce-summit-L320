@@ -24,7 +24,14 @@ The password will be provided during the lab.
 
 ## Getting started
 
-### 1. Log in to Adobe I/O
+### 1. Clone the lab repository
+
+```bash
+git clone https://github.com/adobe-commerce/commerce-summit-L320.git
+cd commerce-summit-L320
+```
+
+### 2. Log in to Adobe I/O
 
 ```bash
 aio auth login --force
@@ -32,9 +39,9 @@ aio auth login --force
 
 Follow the browser prompts: enter your assigned email and lab password, skip optional mobile/email recovery prompts, and select the **Adobe Commerce Labs** profile. Then open the [Adobe Developer Console](https://developer.adobe.com/console/1899289/home) to verify login and accept terms and conditions if prompted.
 
-### 2. Follow the workbook
+### 3. Follow the workbook
 
-Open the workbook and follow the steps from **Step 2** onward (the login step above covers Step 1).
+Open the workbook and follow the steps from **Step 3** onward (the clone and login steps above cover Steps 1–2).
 
 | Use case | Workbook |
 |----------|----------|
