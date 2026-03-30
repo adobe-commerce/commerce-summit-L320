@@ -71,6 +71,9 @@ echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio cli\n"
 npm install -g @adobe/aio-cli
 
+# Disable telemetry prompt
+aio config set telemetry false --global
+
 # Install aio commerce plugin
 echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio commerce plugin\n"
@@ -101,7 +104,7 @@ echo "Adobe AEM CLI installed successfully."
 # aio config clear
 echo -e "\n*************************************************\n"
 echo -e "\nClearing aio config\n"
-aio config clear
+aio config clear --force
 
 echo -e "\n*************************************************\n"
 echo -e "\nSetup complete!\n"
