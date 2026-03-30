@@ -86,6 +86,18 @@ echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio app dev plugin\n"
 aio plugins:install @adobe/aio-cli-plugin-app-dev
 
+echo "Installing Adobe AEM CLI..."
+npm install -g @adobe/aem-cli
+
+# Verify installation
+if ! command -v aem &> /dev/null
+then
+  echo "Adobe AEM CLI installation failed. Please install manually."
+  exit 1
+fi
+
+echo "Adobe AEM CLI installed successfully."
+
 # aio config clear
 echo -e "\n*************************************************\n"
 echo -e "\nClearing aio config\n"
