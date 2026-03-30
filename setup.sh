@@ -66,6 +66,9 @@ else
     echo -e "Skipping prerequisite checks"
 fi
 
+echo -e "\nDisabling aio telemetry (pre-install)\n"
+export AIO_CLI_TELEMETRY=false
+
 # Install aio cli
 echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio cli\n"
