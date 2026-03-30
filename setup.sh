@@ -1,22 +1,27 @@
 #!/bin/bash
+set -euo pipefail
 
 # Parse command line arguments
 SKIP_PREREQS=false
 for arg in "$@"; do
-    case $arg in
+    case "$arg" in
         --skip-prereqs)
-        SKIP_PREREQS=true
-        shift
-        ;;
+            SKIP_PREREQS=true
+            ;;
     esac
 done
+
+# Helper: run aio commands non-interactively
+run_aio() {
+    # The telemetry prompt is the interactive blocker, so answer "n" automatically.
+    printf 'n\n' | aio "$@"
+}
 
 # Check prerequisites
 if [ "$SKIP_PREREQS" = false ]; then
     echo -e "\n*************************************************\n"
     echo -e "Checking prerequisites"
 
-    # Check git installation
     echo -e "\nChecking git installation..."
     if ! command -v git &> /dev/null; then
         echo "ERROR: git is not installed. Please install git and try again."
@@ -24,15 +29,14 @@ if [ "$SKIP_PREREQS" = false ]; then
     fi
     git --version
 
-    # Check Node.js version (must be exactly 22)
     echo -e "\nChecking Node.js version..."
     if ! command -v node &> /dev/null; then
         echo "ERROR: Node.js is not installed. Please install Node.js 22."
         exit 1
     fi
 
-    NODE_VERSION=$(node --version | sed 's/v//')
-    NODE_MAJOR_VERSION=$(echo $NODE_VERSION | cut -d. -f1)
+    NODE_VERSION=$(node --version | sed 's/^v//')
+    NODE_MAJOR_VERSION=$(echo "$NODE_VERSION" | cut -d. -f1)
     REQUIRED_NODE_MAJOR="22"
     echo "Found Node.js version: v$NODE_VERSION"
 
@@ -42,7 +46,6 @@ if [ "$SKIP_PREREQS" = false ]; then
     fi
     echo "Node.js version is correct"
 
-    # Check npm version (should be 9 or higher)
     echo -e "\nChecking npm version..."
     if ! command -v npm &> /dev/null; then
         echo "ERROR: npm is not installed. Please install npm 9 or higher."
@@ -50,7 +53,7 @@ if [ "$SKIP_PREREQS" = false ]; then
     fi
 
     NPM_VERSION=$(npm --version)
-    NPM_MAJOR_VERSION=$(echo $NPM_VERSION | cut -d. -f1)
+    NPM_MAJOR_VERSION=$(echo "$NPM_VERSION" | cut -d. -f1)
     REQUIRED_NPM_MAJOR="9"
     echo "Found npm version: $NPM_VERSION"
 
@@ -66,7 +69,8 @@ else
     echo -e "Skipping prerequisite checks"
 fi
 
-echo -e "\nDisabling aio telemetry (pre-install)\n"
+# Reduce chance of interactive prompts from CLI tooling
+export CI=true
 export AIO_CLI_TELEMETRY=false
 
 # Install aio cli
@@ -74,40 +78,39 @@ echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio cli\n"
 npm install -g @adobe/aio-cli
 
-# Disable telemetry prompt
-aio config set telemetry false --global
+# Set telemetry preference after install as well
+run_aio config set telemetry false --global || true
 
 # Install aio commerce plugin
 echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio commerce plugin\n"
-aio plugins:install https://github.com/adobe-commerce/aio-cli-plugin-commerce
+run_aio plugins:install https://github.com/adobe-commerce/aio-cli-plugin-commerce
 
 # Install aio runtime plugin
 echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio runtime plugin\n"
-aio plugins:install @adobe/aio-cli-plugin-runtime
+run_aio plugins:install @adobe/aio-cli-plugin-runtime
 
 # Install aio app dev plugin
 echo -e "\n*************************************************\n"
 echo -e "\nInstalling aio app dev plugin\n"
-aio plugins:install @adobe/aio-cli-plugin-app-dev
+run_aio plugins:install @adobe/aio-cli-plugin-app-dev
 
-echo "Installing Adobe AEM CLI..."
+echo -e "\nInstalling Adobe AEM CLI...\n"
 npm install -g @adobe/aem-cli
 
 # Verify installation
-if ! command -v aem &> /dev/null
-then
-  echo "Adobe AEM CLI installation failed. Please install manually."
-  exit 1
+if ! command -v aem &> /dev/null; then
+    echo "Adobe AEM CLI installation failed. Please install manually."
+    exit 1
 fi
 
 echo "Adobe AEM CLI installed successfully."
 
-# aio config clear
+# Clear aio config without prompting
 echo -e "\n*************************************************\n"
 echo -e "\nClearing aio config\n"
-aio config clear --force
+run_aio config clear --force
 
 echo -e "\n*************************************************\n"
 echo -e "\nSetup complete!\n"
